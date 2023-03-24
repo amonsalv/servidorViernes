@@ -1,20 +1,11 @@
-//Listado de los servicios
-app.post('/registrarhabitacion', function (req, res) {
-    res.send('we are checking the room')
-  })
-  
-  app.get('/buscarhabitaciones', function (req, res) {
-      res.send('we are looking for all rooms')
-  })
-  
-  app.get('/buscarhabitacion', function (req, res) {
-      res.send('we are looking for 1 room')
-  })
-  
-  app.put('/actualizarhabitacion', function (req, res) {
-      res.send('we are updating 1 room')
-  })
-  
-  app.listen(3000,function(){
-      console.log("Server on...")
-  })
+import * as dotenv from 'dotenv'
+dotenv.config()
+import {API} from './API.js'
+
+console.log(process.env.PORT)
+
+let servidor= new API()
+
+//1. despertamos la Bestia// wake up the BEAST
+
+servidor.serverAwakeing()
