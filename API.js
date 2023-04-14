@@ -1,9 +1,11 @@
 import express from 'express'
 import {rutas} from './routes/rutas.js'
+import { establecerConexion } from './database/conexion.js'
 
 export class API{
     constructor(){
         this.app = express() //app es express
+        this.connectDB()
         this.routingRequests()
     }
 
@@ -11,9 +13,11 @@ export class API{
         this.app.listen(3000,()=>console.log("Servidor encendido...")) //variable de entorno
     }
     routingRequests(){
-        this.app.use(express.json())
-        this.app.use('/',rutas)
+        this.app.use(express.json())//Habilitamos la recepcion de datos desde el body
+        this.app.use('/',rutas) //habilitamos las rutas o end points
     }
-    connectDB(){}
+    connectDB(){
+        establecerConexion()
+    }
 
 }
