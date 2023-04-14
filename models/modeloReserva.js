@@ -33,9 +33,9 @@ const Reserva=new Schema ({
     idHabitacionReserva:{
         type:[String],
         required:true
-    }
+    } 
 })
 
+export const modeloReserva=mongoose.model('reserva',Reserva)
 
-
-//otra tera, traer fotos para la habitacion: mismotamaño 2 para cada habitacion, 5 habitaciones
+//otra tarea, traer fotos para la habitacion: mismotamaño 2 para cada habitacion, 5 habitaciones
