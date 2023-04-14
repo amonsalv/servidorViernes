@@ -17,6 +17,8 @@ export class ControladorReservas {
   }
 
   buscarReserva(peticion, respuesta) {
+    let idReserva=peticion.params.idreserva //params es de express, 
+    // console.log("La habitacion a buscar es: "+idReserva) para probar por consola
     try {
       respuesta.status(200).json({
         mensaje: "Success search the reserve",
@@ -45,6 +47,8 @@ export class ControladorReservas {
   }
 
   editarReserva(peticion, respuesta) {
+    let idReserva=peticion.params.idreserva
+    let datosReserva=peticion.body
     try {
       respuesta.status(200).json({
         mensaje: "Success editing the reserve",

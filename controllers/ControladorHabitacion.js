@@ -52,6 +52,8 @@ export class ControladorHabitacion {
   } // no se necesita por que busca todas las habitaciones, pero debe de haber una peticion y respuesta de esto
 
   editandoHabitacion(peticion, respuesta) {
+    let idHabitacion=peticion.params.idhabitacion
+    let datosHabitacion=peticion.body
     try {
       respuesta.status(200).json({
         "mensaje": "Success editing the room",

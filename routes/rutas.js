@@ -20,7 +20,7 @@ rutas.put("/actualizarhabitacion/:idhabitaciones",controladorHabitacion.editando
 
 //Tarea cree un nuevo controlador, llamado controlador de reservas
 //agregamos los faltantes, reservar habitacion 
-rutas.post("/registrarhabitacion",controladorReservas.registrarReserva)
-rutas.get("/buscarreserva",controladorReservas.buscarReserva)
+rutas.post("/registrarreserva",controladorReservas.registrarReserva)
+rutas.get("/buscarreserva/:idreserva",controladorReservas.buscarReserva)
 rutas.get("/buscarresevaciones",controladorReservas.buscarReservaciones)
 rutas.put("/editarresevaciones",controladorReservas.editarReserva)
