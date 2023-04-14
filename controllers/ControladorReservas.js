@@ -3,6 +3,9 @@ export class ControladorReservas {
 
   registrarReserva(peticion, respuesta) {
     //van a llegar los datos de la habitacion, y revise el dato de la peticion
+    let datosReserva=peticion.body
+    console.log(datosReserva)
+    
     try {
       respuesta.status(200).json({
         mensaje: "Success reserving the data",
