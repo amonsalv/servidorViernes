@@ -8,10 +8,10 @@ export class ControladorHabitacion {
   async registrarHabitacion(peticion, respuesta) {//van a llegar los datos de la habitacion, y revise el dato de la peticion
 
     let datosHabitacion=peticion.body
-    let servicioHabitacion=ServicioHabitaciones()
+    let servicioHabitacion=new ServicioHabitaciones()
     
     try {
-      await servicioHabitacion.registrarHabitacion(datosHabitacion)
+      await servicioHabitacion.resgistrar(datosHabitacion)
       respuesta.status(200).json({
         "mensaje": "Success adding the data",
       }); //dentro del objeto ponemos nuestros atributos //el try es por que funciono
@@ -44,8 +44,8 @@ export class ControladorHabitacion {
     let servicioHabitacion=new ServicioHabitaciones()
     try {
       respuesta.status(200).json({
-        "mensaje": "Success search the room",
-        "habitacion": await servicioHabitacion.buscarHabitaciones(idHabitacion)
+        "mensaje": "Success search the rooms",
+        "habitaciones": await servicioHabitacion.buscarTodasHabitaciones()
       }); //dentro del objeto ponemos nuestros atributos
       //el try es por que funciono
     } catch (errorPeticion) {

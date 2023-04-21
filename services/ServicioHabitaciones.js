@@ -5,7 +5,7 @@ export class ServicioHabitaciones{
 
     async resgistrar(datosHabitacion){
 
-        let habitacionNueva=new modeloHabitacion(datos) //debo asegurarme de que cumplan el modelo de datos de habitacion
+        let habitacionNueva=new modeloHabitacion(datosHabitacion) //debo asegurarme de que cumplan el modelo de datos de habitacion
         return await habitacionNueva.save() //nos salve los datos
 
     } 
@@ -13,9 +13,10 @@ export class ServicioHabitaciones{
         let habitacionesConsultadas=await modeloHabitacion.find() //el controlador responda con los datos que encontro
         return habitacionesConsultadas
     }
-    async buscarHabitaciones(idHabitacion){
+    async buscarHabitacion(idHabitacion){
         let habitacionesConsultada=await modeloHabitacion.findById(idHabitacion) //el controlador responda con los datos que encontro
-        return habitacionesConsultada}
+        return habitacionesConsultada
+    }
     async editarHabitacion(idHabitacion,datosHabitacion){
         return await modeloHabitacion.findByIdAndUpdate(idHabitacion,datosHabitacion) //operacion de escritura
     }
