@@ -1,5 +1,6 @@
 //Estas mayusculas del proyecto es por que son clases
 // tenemos que hacer 4 peticiones distintas, osea cuantos metodos distintos
+import { ServicioHabitaciones } from "../services/ServicioHabitaciones.js";
 export class ControladorHabitacion {
   constructor() {}
 
