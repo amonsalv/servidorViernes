@@ -1,4 +1,4 @@
-import { ServicioReservas, ServicioReservas } from "../services/ServicioReservas.js";
+import { ServicioReservas } from "../services/ServicioReservas.js";
 
 export class ControladorReservas {
   constructor() {}

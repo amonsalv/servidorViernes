@@ -7,14 +7,27 @@ export class ControladorHabitacion {
 
   async registrarHabitacion(peticion, respuesta) {//van a llegar los datos de la habitacion, y revise el dato de la peticion
 
-    let datosHabitacion=peticion.body
+    let datosHabitacion=peticion.body //
     let servicioHabitacion=new ServicioHabitaciones()
     
     try {
+
+      if (datosHabitacion.precioNoche<100 && datosHabitacion.cantidadmaxima<2){ //podremos unas condiciones
+        respuesta.status(400).json({
+          "mensaje":"check the price per night and the maximum number of people admitted."
+        })
+      } else if(datosHabitacion.precioNoche<100){
+        respuesta.status(400).json({
+          "mensaje":"very few people in the room"
+        })
+      }else{
       await servicioHabitacion.resgistrar(datosHabitacion)
       respuesta.status(200).json({
         "mensaje": "Success adding the data",
       }); //dentro del objeto ponemos nuestros atributos //el try es por que funciono
+      
+      }
+
     } catch (errorPeticion) {
       respuesta.status(400).json({
         "mensaje": "Failed " + errorPeticion,
