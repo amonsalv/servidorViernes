@@ -1,4 +1,7 @@
 import { ServicioReservas } from "../services/ServicioReservas.js";
+//para reservar exista habitacion
+//que por los dias calcule el costo por noche
+//que se validen las fechas y estas no queden menor a la fecha final
 
 export class ControladorReservas {
   constructor() {}
@@ -8,6 +11,15 @@ export class ControladorReservas {
     let datosReserva=peticion.body
     let servicioReserva=new ServicioReservas()
     //console.log(datosReserva)
+
+   /*if(datosReserva){
+
+    }else if(datosReserva){
+
+    }else{
+
+    }
+   */
     
     try {
       await servicioReserva.registrarReserva(datosReserva)
@@ -74,6 +86,24 @@ export class ControladorReservas {
       //cuando no funciono, error humano
     }
   } 
+
+  async eliminarreserva(peticion, respuesta){
+    let idReserva=peticion.params.idreserva
+    let datosReserva=peticion.body
+    let servicioReserva= new ServicioReservas()
+    try {
+      await servicioReserva.eliminarreserva(idReserva,datosReserva)
+      respuesta.status(200).json({
+        mensaje: "Success delete the reserve",
+      });      
+    }catch(errorPeticion) {
+      respuesta.status(400).json({
+        mensaje: "Failed " + errorPeticion,
+      });
+      //cuando no funciono, error humano
+    }
+
+  }
 
 
 }

@@ -70,11 +70,11 @@ export class ControladorHabitacion {
   } // no se necesita por que busca todas las habitaciones, pero debe de haber una peticion y respuesta de esto
 
   async editandoHabitacion(peticion, respuesta) {
-    let idHabitacion=peticion.params.idhabitacion
+    let idHabitacion=peticion.params.idhabitaciones
     let datosHabitacion=peticion.body
     let servicioHabitacion= new ServicioHabitaciones()
     try {
-      await servicioHabitacion.editarHabitacion(idHabitacion)
+      await servicioHabitacion.editarHabitacion(idHabitacion,datosHabitacion)
       respuesta.status(200).json({
         "mensaje": "Success editing the room",         
       }); //dentro del objeto ponemos nuestros atributos

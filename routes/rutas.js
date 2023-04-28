@@ -23,4 +23,5 @@ rutas.put("/actualizarhabitacion/:idhabitaciones",controladorHabitacion.editando
 rutas.post("/registrarreserva",controladorReservas.registrarReserva)
 rutas.get("/buscarreserva/:idreserva",controladorReservas.buscarReserva)
 rutas.get("/buscarresevaciones",controladorReservas.buscarReservaciones)
-rutas.put("/editarresevaciones",controladorReservas.editarReserva)
+rutas.put("/editarresevaciones/:idresreva",controladorReservas.editarReserva)
+rutas.delete("/eliminarreserva",controladorReservas.eliminarreserva)

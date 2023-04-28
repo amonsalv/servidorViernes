@@ -4,7 +4,7 @@ export class ServicioReservas{
     constructor(){}
 
     async registrarReserva(datosReserva){
-        let nuevareserva= new modeloReserv(datosReserva)
+        let nuevareserva= new modeloReserva(datosReserva)
         return await nuevareserva.save()
     }
 
@@ -20,6 +20,10 @@ export class ServicioReservas{
 
     async editarReserva(idReserva,datosReserva){
         return await modeloReserva.findByIdAndUpdate(idReserva,datosReserva)
+    }
+
+    async eliminarreserva(idReserva,datosReserva){
+        return await modeloReserva.findByIdAndDelete(idReserva,datosReserva)
     }
 
     
