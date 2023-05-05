@@ -1,4 +1,6 @@
 import { ServicioReservas } from "../services/ServicioReservas.js";
+import { ServicioHabitaciones } from "../services/ServicioHabitaciones.js";
+
 //para reservar exista habitacion
 //que por los dias calcule el costo por noche
 //que se validen las fechas y estas no queden menor a la fecha final
@@ -6,21 +8,33 @@ import { ServicioReservas } from "../services/ServicioReservas.js";
 export class ControladorReservas {
   constructor() {}
 
+  
+  async reservarHabitacion(datosReserva, numDias) {
+    const servicioHabitaciones = new ServicioHabitaciones();
+    const servicioReservas = new ServicioReservas();
+  
+    // Verificar que la habitación esté disponible
+    const habitacionDisponible = await servicioHabitaciones.verificarDisponibilidad(datosReserva.idHabitacion, datosReserva.fechaInicio, datosReserva.fechaFin);
+    if (!habitacionDisponible) {
+      throw new Error("La habitación no está disponible en esas fechas");
+    }
+  
+    // Calcular el costo total de la reserva
+    const costoNoche = await servicioHabitaciones.obtenerCostoNoche(datosReserva.idHabitacion);
+    const costoTotal = costoNoche * numDias;
+  
+    // Guardar la reserva en la base de datos
+    datosReserva.costoTotal = costoTotal;
+    await servicioReservas.registrarReserva(datosReserva);
+  }
+
   async registrarReserva(peticion, respuesta) {
     //van a llegar los datos de la habitacion, y revise el dato de la peticion
     let datosReserva=peticion.body
     let servicioReserva=new ServicioReservas()
     //console.log(datosReserva)
 
-   /*if(datosReserva){
 
-    }else if(datosReserva){
-
-    }else{
-
-    }
-   */
-    
     try {
       await servicioReserva.registrarReserva(datosReserva)
        respuesta.status(200).json({
