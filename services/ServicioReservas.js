@@ -26,5 +26,7 @@ export class ServicioReservas{
         return await modeloReserva.findByIdAndDelete(idReserva,datosReserva)
     }
 
-    
+    async activo(id){
+        return await modeloReserva.find({"estado":1,"idHabitacion":id})
+    }
 }

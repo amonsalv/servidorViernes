@@ -28,7 +28,8 @@ export class ControladorReservas {
       respuesta.status(200).json({
         inicio:fechaInicio,
         final:fechaFin,
-        mensaje: costo
+        mensaje: costo,
+        
       })
 
     }
@@ -38,26 +39,21 @@ export class ControladorReservas {
       })
 
     }
-    
 
-
-
-    
-
-  
-    // Verificar que la habitación esté disponible
-   
-  
-    // Calcular el costo total de la reserva
-    /*const costoNoche = await servicioHabitaciones.obtenerCostoNoche(datosReserva.idHabitacion);
-    const costoTotal = costoNoche * numDias;
-  
     // Guardar la reserva en la base de datos
-    datosReserva.costoTotal = costoTotal;
-    await servicioReservas.registrarReserva(datosReserva);*/
-  }
+    datosReserva.costo= costo;
+    await servicioReservas.registrarReserva(datosReserva);
 
-  
+    //verificar la reserva
+    if(await servicioReservas.activo(datosReserva.idHabitacion) == null){
+
+    }else{
+      respuesta.status(400).json({
+        "mensaje": "Failed " + errorPeticion,
+      });
+    }
+
+  }
 
   async buscarReserva(peticion, respuesta) {
     let idReserva=peticion.params.idreserva //params es de express, 

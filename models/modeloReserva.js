@@ -37,7 +37,11 @@ const Reserva=new Schema ({
     costo:{
         type:String,
         required:false
-    }  
+    },
+    estado:{
+        type:Number,
+        default:0
+    }
     
 })
 
