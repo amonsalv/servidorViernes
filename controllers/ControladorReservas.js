@@ -21,12 +21,14 @@ export class ControladorReservas {
       let fechaInicio=datosReserva.fechaInicio
       let fechaFin=datosReserva.fechaFinal
       let diferencia=  new Date(fechaFin) - new Date(fechaInicio) //como pasar una resta de fechas a dias en js
-      let fechadias= diferencia /  (1000 * 60 * 60 * 24)  
+      let fechadias= diferencia /  (1000 * 60 * 60 * 24)
       
+      let costo=habitacion.precioNoche*fechadias
+
       respuesta.status(200).json({
         inicio:fechaInicio,
         final:fechaFin,
-        mensaje: fechadias
+        mensaje: costo
       })
 
     }
