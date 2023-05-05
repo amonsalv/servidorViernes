@@ -9,45 +9,53 @@ export class ControladorReservas {
   constructor() {}
 
   
-  async reservarHabitacion(datosReserva, numDias) {
+  async registrarReserva(peticion, respuesta) {
     const servicioHabitaciones = new ServicioHabitaciones();
     const servicioReservas = new ServicioReservas();
+
+    let datosReserva=peticion.body
+
+    let habitacion=await servicioHabitaciones.buscarHabitacion(datosReserva.idHabitacion)
+    if(habitacion!=null){
+     
+      let fechaInicio=datosReserva.fechaInicio
+      let fechaFin=datosReserva.fechaFinal
+      let diferencia=  new Date(fechaFin) - new Date(fechaInicio) //como pasar una resta de fechas a dias en js
+      let fechadias= diferencia /  (1000 * 60 * 60 * 24)  
+      
+      respuesta.status(200).json({
+        inicio:fechaInicio,
+        final:fechaFin,
+        mensaje: fechadias
+      })
+
+    }
+    else{
+      respuesta.status(200).json({
+        mensaje: "Habitacion NO existe"
+      })
+
+    }
+    
+
+
+
+    
+
   
     // Verificar que la habitación esté disponible
-    const habitacionDisponible = await servicioHabitaciones.verificarDisponibilidad(datosReserva.idHabitacion, datosReserva.fechaInicio, datosReserva.fechaFin);
-    if (!habitacionDisponible) {
-      throw new Error("La habitación no está disponible en esas fechas");
-    }
+   
   
     // Calcular el costo total de la reserva
-    const costoNoche = await servicioHabitaciones.obtenerCostoNoche(datosReserva.idHabitacion);
+    /*const costoNoche = await servicioHabitaciones.obtenerCostoNoche(datosReserva.idHabitacion);
     const costoTotal = costoNoche * numDias;
   
     // Guardar la reserva en la base de datos
     datosReserva.costoTotal = costoTotal;
-    await servicioReservas.registrarReserva(datosReserva);
+    await servicioReservas.registrarReserva(datosReserva);*/
   }
 
-  async registrarReserva(peticion, respuesta) {
-    //van a llegar los datos de la habitacion, y revise el dato de la peticion
-    let datosReserva=peticion.body
-    let servicioReserva=new ServicioReservas()
-    //console.log(datosReserva)
-
-
-    try {
-      await servicioReserva.registrarReserva(datosReserva)
-       respuesta.status(200).json({
-        mensaje: "Success reserving the data",
-      }); //dentro del objeto ponemos nuestros atributos
-      //el try es por que funciono
-    } catch (errorPeticion) {
-      respuesta.status(400).json({
-        mensaje: "Failed " + errorPeticion,
-      });
-      //cuando no funciono, error humano
-    }
-  }
+  
 
   async buscarReserva(peticion, respuesta) {
     let idReserva=peticion.params.idreserva //params es de express, 

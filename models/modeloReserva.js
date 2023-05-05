@@ -30,10 +30,14 @@ const Reserva=new Schema ({
         type:Number,
         required:true
     },
-    idHabitacionReserva:{
-        type:[String],
+    idHabitacion:{
+        type:String,
         required:true
-    } 
+    },
+    costo:{
+        type:String,
+        required:false
+    }  
     
 })
 
