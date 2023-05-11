@@ -2,62 +2,87 @@ import { ServicioReservas } from "../services/ServicioReservas.js";
 import { ServicioHabitaciones } from "../services/ServicioHabitaciones.js";
 
 //para reservar exista habitacion
-//que por los dias calcule el costo por noche
-//que se validen las fechas y estas no queden menor a la fecha final
 
 export class ControladorReservas {
-  constructor() {}
+  constructor() { }
 
-  
+
   async registrarReserva(peticion, respuesta) {
+
     const servicioHabitaciones = new ServicioHabitaciones();
     const servicioReservas = new ServicioReservas();
 
-    let datosReserva=peticion.body
+    let datosReserva = peticion.body
 
-    let habitacion=await servicioHabitaciones.buscarHabitacion(datosReserva.idHabitacion)
-    if(habitacion!=null){
-     
-      let fechaInicio=datosReserva.fechaInicio
-      let fechaFin=datosReserva.fechaFinal
-      let diferencia=  new Date(fechaFin) - new Date(fechaInicio) //como pasar una resta de fechas a dias en js
-      let fechadias= diferencia /  (1000 * 60 * 60 * 24)
-      
-      let costo=habitacion.precioNoche*fechadias
 
-      respuesta.status(200).json({
-        inicio:fechaInicio,
-        final:fechaFin,
+    try { //vamos a validar la habitacion para efectuar la reserva
+
+      let habitacion = await servicioHabitaciones.buscarHabitacion(datosReserva.idHabitacion);
+
+      // Guardar la reserva en la base de datos
+    /*  datosReserva.costo = costo;
+      await servicioReservas.registrarReserva(datosReserva);
+
+      //verificar la reserva
+      if (await servicioReservas.activo(datosReserva.idHabitacion) == null) {
+
+      } 
+      (habitacion != null)*/
+
+      console.log('Info habitacion:', habitacion); //traemos la info de la habitacion, guardamos habitacion y se pregunta, sí existe entra a recibir los datos para obtener la fecha y calcular cuantos días se quedo.
+           
+
+      if (await servicioReservas.activo(datosReserva.idHabitacion) == null) { //verificamos y confirmamos los datos de la habitacion y en caso contrario que no existan
+
+        //definimos las peticiones para con ellas tener las respuestas
+        //en este caso iniciamos con las fechas de reserva se validen las fechas y estas no queden menor a la fecha final
+
+        let fechaInicio = datosReserva.fechaInicio
+        let fechaFin = datosReserva.fechaFinal
+        let diferencia = new Date(fechaFin) - new Date(fechaInicio) //como pasar una resta de fechas a dias en js
+
+
+        if (fechadias >= 0) { // si esto es inferior si la fecha da menos dias hacemos lo siguiente: 
+
+          let fechadias = diferencia / (1000 * 60 * 60 * 24) ///obtenemos la diferencia en dias
+
+          let costo = habitacion.precioNoche * fechadias //que por los dias calcule el costo por noche
+
+          datosReserva.costo = costo;
+
+          console.log("El precio de la habitacion según la cantidad de personas es de " + datosReserva.costoReserva);//llamemos el precio de la habitacion
+
+          await servicioReservas.registrarReserva(datosReserva)
+          respuesta.status(200).json({
+            "mensaje": "Se ha registrado los datos exitosamente"
+          })
+        } else {
+          respuesta.status(400).json({
+            mensaje: "Fecha invalida, No tenemos maquina de tiempo para volver al pasado :("
+          })
+        }
+      } else {
+        respuesta.status(400).json({
+          "mensaje": "No podemos reservar una habitación que no existe"
+        })
+      }
+      /*respuesta.status(200).json({
+        inicio: fechaInicio, 
+        final: fechaFin,
         mensaje: costo,
-        
-      })
+      })*/
 
-    }
-    else{
-      respuesta.status(200).json({
-        mensaje: "Habitacion NO existe"
-      })
-
-    }
-
-    // Guardar la reserva en la base de datos
-    datosReserva.costo= costo;
-    await servicioReservas.registrarReserva(datosReserva);
-
-    //verificar la reserva
-    if(await servicioReservas.activo(datosReserva.idHabitacion) == null){
-
-    }else{
+    } catch (errorPeticion) {
       respuesta.status(400).json({
-        "mensaje": "Failed " + errorPeticion,
-      });
+        "mensaje": "Fallamos en la reserva " + errorPeticion
+      })
     }
 
   }
 
   async buscarReserva(peticion, respuesta) {
-    let idReserva=peticion.params.idreserva //params es de express, 
-    let servicioReserva= new ServicioReservas()
+    let idReserva = peticion.params.idreserva //params es de express, 
+    let servicioReserva = new ServicioReservas()
     // console.log("La habitacion a buscar es: "+idReserva) para probar por consola
     try {
       respuesta.status(200).json({
@@ -74,7 +99,7 @@ export class ControladorReservas {
   }
 
   async buscarReservaciones(peticion, respuesta) {
-    let servicioReserva= new ServicioReservas()
+    let servicioReserva = new ServicioReservas()
     try {
       respuesta.status(200).json({
         mensaje: "Success search the reserves",
@@ -90,11 +115,11 @@ export class ControladorReservas {
   }
 
   async editarReserva(peticion, respuesta) {
-    let idReserva=peticion.params.idreserva
-    let datosReserva=peticion.body
-    let servicioReserva= new ServicioReservas()
+    let idReserva = peticion.params.idreserva
+    let datosReserva = peticion.body
+    let servicioReserva = new ServicioReservas()
     try {
-      await servicioReserva.editarReserva(idReserva,datosReserva)
+      await servicioReserva.editarReserva(idReserva, datosReserva)
       respuesta.status(200).json({
         mensaje: "Success editing the reserve",
       }); //dentro del objeto ponemos nuestros atributos
@@ -105,18 +130,18 @@ export class ControladorReservas {
       });
       //cuando no funciono, error humano
     }
-  } 
+  }
 
-  async eliminarreserva(peticion, respuesta){
-    let idReserva=peticion.params.idreserva
-    let datosReserva=peticion.body
-    let servicioReserva= new ServicioReservas()
+  async eliminarreserva(peticion, respuesta) {
+    let idReserva = peticion.params.idreserva
+    let datosReserva = peticion.body
+    let servicioReserva = new ServicioReservas()
     try {
-      await servicioReserva.eliminarreserva(idReserva,datosReserva)
+      await servicioReserva.eliminarreserva(idReserva, datosReserva)
       respuesta.status(200).json({
         mensaje: "Success delete the reserve",
-      });      
-    }catch(errorPeticion) {
+      });
+    } catch (errorPeticion) {
       respuesta.status(400).json({
         mensaje: "Failed " + errorPeticion,
       });
