@@ -32,7 +32,7 @@ export class ControladorReservas {
       console.log('Info habitacion:', habitacion); //traemos la info de la habitacion, guardamos habitacion y se pregunta, sí existe entra a recibir los datos para obtener la fecha y calcular cuantos días se quedo.
            
 
-      if (await servicioReservas.activo(datosReserva.idHabitacion) == null) { //verificamos y confirmamos los datos de la habitacion y en caso contrario que no existan
+      if (await servicioReservas.activo(datosReserva.idHabitacion) == null) { //verificamos y confirmamos los datos de la habitacion y en caso contrario que no existan  // if(habitacion){
 
         //definimos las peticiones para con ellas tener las respuestas
         //en este caso iniciamos con las fechas de reserva se validen las fechas y estas no queden menor a la fecha final
