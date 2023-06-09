@@ -3,33 +3,26 @@ import { ServicioHabitaciones } from "../services/ServicioHabitaciones.js";
 
 //para reservar exista habitacion
 
-export class ControladorReservas {
-  constructor() { }
+export class ControladorReservas{
+
+    constructor(){}
+
+    async registrandoReserva(peticion,respuesta){
+
+        let datosReserva=peticion.body
+
+        let servicioReserva=new ServicioReservas()
+	    let servicioHabitaciones = new ServicioHabitaciones()
+
+        try{
+		// Validacion que la habitacion existe para poder hacer la reserva.
+		
+	    let habitacion = await servicioHabitaciones.buscarHabitacion(datosReserva.idHabitacionReserva);
 
 
-  async registrarReserva(peticion, respuesta) {
-
-    const servicioHabitaciones = new ServicioHabitaciones();
-    const servicioReservas = new ServicioReservas();
-
-    let datosReserva = peticion.body
-
-
-    try { //vamos a validar la habitacion para efectuar la reserva
-
-      let habitacion = await servicioHabitaciones.buscarHabitacion(datosReserva.idHabitacion);
+        console.log('Info habitacion:', habitacion);//traemos la info de la habitacion, guardamos habitacion y se pregunta, sí existe entra a recibir los datos para obtener la fecha y calcular cuantos días se quedo.
 
       // Guardar la reserva en la base de datos
-    /*  datosReserva.costo = costo;
-      await servicioReservas.registrarReserva(datosReserva);
-
-      //verificar la reserva
-      if (await servicioReservas.activo(datosReserva.idHabitacion) == null) {
-
-      } 
-      (habitacion != null)*/
-
-      console.log('Info habitacion:', habitacion); //traemos la info de la habitacion, guardamos habitacion y se pregunta, sí existe entra a recibir los datos para obtener la fecha y calcular cuantos días se quedo.
            
 
       if (await servicioReservas.activo(datosReserva.idHabitacion) == null) { //verificamos y confirmamos los datos de la habitacion y en caso contrario que no existan  // if(habitacion){
